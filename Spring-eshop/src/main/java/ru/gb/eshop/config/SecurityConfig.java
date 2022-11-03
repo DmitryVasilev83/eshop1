@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/ws").permitAll()
-//                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name()) // это вместо следующей строки добавится
+                .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name()) // это вместо следующей строки добавится
                 .antMatchers("/users/new").hasAuthority(Role.ADMIN.name()) // эта строчка потом уберется
                 .anyRequest().permitAll()
                 .and()

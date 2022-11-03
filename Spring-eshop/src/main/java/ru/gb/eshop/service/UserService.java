@@ -9,13 +9,13 @@ import java.util.List;
 public interface UserService extends UserDetailsService { // для security
     boolean save(UserDto userDto);
 
-//    List<UserDto> getAll();
-//
-//    User findByName(String name);
-//
-//    void updateProfile(UserDto dto);
-//
-//    void save(User user);
+    List<UserDto> getAll();
+
+    User findByName(String name);
+
+    void updateProfile(UserDto dto);
+
+    void save(User user);
 //
 //    boolean activateUser(String activateCode);
 }
