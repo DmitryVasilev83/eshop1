@@ -25,9 +25,12 @@ alter table if exists buckets
   add constraint buckets_fk_user
   foreign key (user_id) references users;
 
+
+  -- Это убрали а в гите есть
 alter table if exists users
   add constraint users_fk_bucket
   foreign key (bucket_id) references buckets;
+
 
 -- CATEGORY
 create sequence category_seq start 1 increment 1;

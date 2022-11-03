@@ -52,48 +52,48 @@ public class UserServiceImpl implements UserService {
         return true;
     }
 
-//    @Override
-//    public List<UserDto> getAll() {
-//        return userRepository.findAll().stream()
-//                .map(this::toDto)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public User findByName(String name) {
-//        return userRepository.findFirstByName(name);
-//    }
+    @Override
+    public List<UserDto> getAll() {
+        return userRepository.findAll().stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
+    }
 
-//    @Override
-//    @Transactional
-//    public void updateProfile(UserDto dto) {
-//        User savedUser = userRepository.findFirstByName(dto.getUsername());
-//        if(savedUser == null){
-//            throw new RuntimeException("User not found by name " + dto.getUsername());
-//        }
-//
-//        boolean changed = false;
-//        if(dto.getPassword() != null && !dto.getPassword().isEmpty()){
-//            savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
-//            changed = true;
-//        }
-//        if(!Objects.equals(dto.getEmail(), savedUser.getEmail())){
-//            savedUser.setEmail(dto.getEmail());
-//            changed = true;
-//        }
-//        if(changed){
-//            userRepository.save(savedUser);
-//        }
-//    }
+    @Override
+    public User findByName(String name) {
+        return userRepository.findFirstByName(name);
+    }
 
-//    @Override
-//    @Transactional
-//    public void save(User user) {
-//        userRepository.save(user);
+    @Override
+    @Transactional
+    public void updateProfile(UserDto dto) {
+        User savedUser = userRepository.findFirstByName(dto.getUsername());
+        if(savedUser == null){
+            throw new RuntimeException("User not found by name " + dto.getUsername());
+        }
+
+        boolean changed = false;
+        if(dto.getPassword() != null && !dto.getPassword().isEmpty()){
+            savedUser.setPassword(passwordEncoder.encode(dto.getPassword()));
+            changed = true;
+        }
+        if(!Objects.equals(dto.getEmail(), savedUser.getEmail())){
+            savedUser.setEmail(dto.getEmail());
+            changed = true;
+        }
+        if(changed){    // иф тут для того чтобы апдейтить пользователя только если есть какието изменения
+            userRepository.save(savedUser);
+        }
+    }
+
+    @Override
+    @Transactional
+    public void save(User user) {
+        userRepository.save(user);
 //        if(user.getActivateCode() != null && !user.getActivateCode().isEmpty()){
 //            mailSenderService.sendActivateCode(user);
 //        }
-//    }
+    }
 
 //    @Override
 //    @Transactional
@@ -129,11 +129,11 @@ public class UserServiceImpl implements UserService {
     }
 
 
-//    private UserDto toDto(User user){
-//        return UserDto.builder()
-//                .username(user.getName())
-//                .email(user.getEmail())
+    private UserDto toDto(User user){
+        return UserDto.builder()
+                .username(user.getName())
+                .email(user.getEmail())
 //                .activated(user.getActivateCode() == null)
-//                .build();
-//    }
+                .build();
+    }
 }

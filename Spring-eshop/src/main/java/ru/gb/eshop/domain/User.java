@@ -27,7 +27,7 @@ public class User {
     private boolean archive;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)   // тут не совпадение с гитом ( там без маппед бай юзер)
     private Bucket bucket;
 
 
