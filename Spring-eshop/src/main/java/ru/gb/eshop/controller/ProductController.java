@@ -45,17 +45,17 @@ public class ProductController {
         return "redirect:/products";
     }
 
-//    @PostMapping
-//    public ResponseEntity<Void> addProduct(ProductDto dto){
-//        productService.addProduct(dto);
-//        return ResponseEntity.status(HttpStatus.CREATED).build();
-//    }
-//
-//    @MessageMapping("/products")
-//    public void messageAddProduct(ProductDto dto){
-//        productService.addProduct(dto);
-//    }
-//
+    @PostMapping
+    public ResponseEntity<Void> addProduct(ProductDto dto){
+        productService.addProduct(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @MessageMapping("/products")
+    public void messageAddProduct(ProductDto dto){
+        productService.addProduct(dto);
+    }
+
 //    @GetMapping("/{id}")
 //    @ResponseBody
 //    public ProductDto getById(@PathVariable Long id){

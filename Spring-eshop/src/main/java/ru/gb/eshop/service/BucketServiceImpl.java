@@ -3,13 +3,12 @@ package ru.gb.eshop.service;
 import org.springframework.stereotype.Service;
 import ru.gb.eshop.dao.BucketRepository;
 import ru.gb.eshop.dao.ProductRepository;
-import ru.gb.eshop.domain.Bucket;
-import ru.gb.eshop.domain.Product;
-import ru.gb.eshop.domain.User;
+import ru.gb.eshop.domain.*;
 import ru.gb.eshop.dto.BucketDetailDto;
 import ru.gb.eshop.dto.BucketDto;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,15 +21,15 @@ public class BucketServiceImpl implements BucketService {
     private final BucketRepository bucketRepository;
     private final ProductRepository productRepository;
     private final UserService userService;
-//    private final OrderService orderService;
+    private final OrderService orderService;
 
     public BucketServiceImpl(BucketRepository bucketRepository, ProductRepository productRepository, UserService userService
-//            , OrderService orderService
+            , OrderService orderService
     ) {
         this.bucketRepository = bucketRepository;
         this.productRepository = productRepository;
         this.userService = userService;
-//        this.orderService = orderService;
+        this.orderService = orderService;
     }
 
     @Override
@@ -88,41 +87,41 @@ public class BucketServiceImpl implements BucketService {
         return bucketDto;
     }
 
-//    @Transactional
-//    public void commitBucketToOrder(String username){
-//        User user = userService.findByName(username);
-//        if(user == null){
-//            throw new RuntimeException("User is not found");
-//        }
-//        Bucket bucket = user.getBucket();
-//        if(bucket == null || bucket.getProducts().isEmpty()){
-//            return;
-//        }
-//
-//        Order order = new Order();
-//        order.setStatus(OrderStatus.NEW);
-//        order.setUser(user);
-//
-//        Map<Product, Long> productWithAmount = bucket.getProducts().stream()
-//                .collect(Collectors.groupingBy(product -> product, Collectors.counting()));
-//
-//        List<OrderDetails> orderDetails = productWithAmount.entrySet().stream()
-//                .map(pair -> new OrderDetails(order, pair.getKey(), pair.getValue()))
-//                .collect(Collectors.toList());
-//
-//        BigDecimal total = new BigDecimal(orderDetails.stream()
-//                .map(detail -> detail.getPrice().multiply(detail.getAmount()))
-//                .mapToDouble(BigDecimal::doubleValue).sum());
-//
-//        order.setDetails(orderDetails);
-//        order.setSum(total);
-//        order.setAddress("none");
-//
-//        orderService.saveOrder(order);
-//        bucket.getProducts().clear();
-//        bucketRepository.save(bucket);
-//
-//    }
+    @Transactional
+    public void commitBucketToOrder(String username){
+        User user = userService.findByName(username);
+        if(user == null){
+            throw new RuntimeException("User is not found");
+        }
+        Bucket bucket = user.getBucket();
+        if(bucket == null || bucket.getProducts().isEmpty()){
+            return;
+        }
+
+        Order order = new Order();
+        order.setStatus(OrderStatus.NEW);
+        order.setUser(user);
+
+        Map<Product, Long> productWithAmount = bucket.getProducts().stream()
+                .collect(Collectors.groupingBy(product -> product, Collectors.counting()));
+
+        List<OrderDetails> orderDetails = productWithAmount.entrySet().stream()
+                .map(pair -> new OrderDetails(order, pair.getKey(), pair.getValue()))
+                .collect(Collectors.toList());
+
+        BigDecimal total = new BigDecimal(orderDetails.stream()
+                .map(detail -> detail.getPrice().multiply(detail.getAmount()))
+                .mapToDouble(BigDecimal::doubleValue).sum());
+
+        order.setDetails(orderDetails);
+        order.setSum(total);
+        order.setAddress("none");
+
+        orderService.saveOrder(order);
+        bucket.getProducts().clear();
+        bucketRepository.save(bucket);
+
+    }
 
 //    public static void main(String[] args) {
 //

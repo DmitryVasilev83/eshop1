@@ -7,3 +7,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/eshop
     username: postgres
     password: geek
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.springframework.ws: DEBUG
