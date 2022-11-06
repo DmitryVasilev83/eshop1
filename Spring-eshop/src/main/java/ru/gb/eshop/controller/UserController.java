@@ -33,22 +33,22 @@ public class UserController {
         return "userList";
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")   // доступ к методу только админу
     @GetMapping("/new")
     public String newUser(Model model){
-        System.out.println("Called method newUser");
+        System.out.println("Called method newUser");  // лог для себя
         model.addAttribute("user", new UserDto());
         return "user";
     }
 
-//    @PostAuthorize("isAuthenticated() and #username == authentication.principal.username")
-//    @GetMapping("/{name}/roles")
-//    @ResponseBody
-//    public String getRoles(@PathVariable("name") String username){
-//        System.out.println("Called method getRoles");
-//        User byName = userService.findByName(username);
-//        return byName.getRole().name();
-//    }
+    @PostAuthorize("isAuthenticated() and #username == authentication.principal.username") // сравниваем юзера текущего и принципал. Это для демонстрации спелла.
+    @GetMapping("/{name}/roles")
+    @ResponseBody
+    public String getRoles(@PathVariable("name") String username){
+        System.out.println("Called method getRoles");
+        User byName = userService.findByName(username);
+        return byName.getRole().name();
+    }
 
     @PostMapping(value = "/new")
     public String saveUser(UserDto dto, Model model){

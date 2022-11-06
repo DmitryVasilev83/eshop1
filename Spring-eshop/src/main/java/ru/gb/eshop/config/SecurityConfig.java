@@ -53,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/ws").permitAll()
                 .antMatchers("/users").hasAnyAuthority(Role.ADMIN.name(), Role.MANAGER.name()) // это вместо следующей строки добавится
-                .antMatchers("/users/new").hasAuthority(Role.ADMIN.name()) // эта строчка потом уберется
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
